@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,12 +6,16 @@ import java.io.PrintWriter;
 import java.util.*;
 public class SortingAnalysis {
 	public static void main(String[] args) throws FileNotFoundException{
-//		fileCreator(5000);
-//		fileCreator(10000);
-//		fileCreator(20000);
-//		fileCreator(50000);
-//		return;
 		
+		/* Create the files, only need to use this once
+		 * fileCreator(5000);
+		 * fileCreator(10000);
+		 * fileCreator(20000);
+		 * fileCreator(50000);
+		 * return;
+		*/
+		
+		//create all arrays, 12 total
 		int[] fiveAscending = fileOpener(5000, "ascending");
 		int[] fiveDescending = fileOpener(5000, "descending");
 		int[] fiveRandom = fileOpener(5000, "random");
@@ -28,35 +31,83 @@ public class SortingAnalysis {
 		int[] fiftyAscending = fileOpener(50000, "ascending");
 		int[] fiftyDescending = fileOpener(50000, "descending");
 		int[] fiftyRandom = fileOpener(50000, "random");
+		
+		//create all average times, 24 total
+		long fiveBubbleAscAvg = avgTime(fiveAscending, 1);
+		long fiveBubbleDesAvg = avgTime(fiveDescending, 1);
+		long fiveBubbleRanAvg = avgTime(fiveRandom, 1);
+		
+		long tenBubbleAscAvg = avgTime(tenAscending, 1);
+		long tenBubbleDesAvg = avgTime(tenDescending, 1);
+		long tenBubbleRanAvg = avgTime(tenRandom, 1);
+		
+		long twentyBubbleAscAvg = avgTime(twentyAscending, 1);
+		long twentyBubbleDesAvg = avgTime(twentyDescending, 1);
+		long twentyBubbleRanAvg = avgTime(twentyRandom, 1);
+		
+		long fiftyBubbleAscAvg = avgTime(fiftyAscending, 1);
+		long fiftyBubbleDesAvg = avgTime(fiftyDescending, 1);
+		long fiftyBubbleRanAvg = avgTime(fiftyRandom, 1);
+		
+		long fiveQuickAscAvg = avgTime(fiveAscending, 2);
+		long fiveQuickDesAvg = avgTime(fiveDescending, 2);
+		long fiveQuickRanAvg = avgTime(fiveRandom, 2);
+		
+		long tenQuickAscAvg = avgTime(tenAscending, 2);
+		long tenQuickDesAvg = avgTime(tenDescending, 2);
+		long tenQuickRanAvg = avgTime(tenRandom, 2);
+		
+		long twentyQuickAscAvg = avgTime(twentyAscending, 2);
+		long twentyQuickDesAvg = avgTime(twentyDescending, 2);
+		long twentyQuickRanAvg = avgTime(twentyRandom, 2);
+		
+		long fiftyQuickAscAvg = avgTime(fiftyAscending, 2);
+		long fiftyQuickDesAvg = avgTime(fiftyDescending, 2);
+		long fiftyQuickRanAvg = avgTime(fiftyRandom, 2);
 
-		System.out.print("5000 Ascending:\n\tBubble: " + bubbleSortTimer(fiveAscending) + "\n\tQuick: " + quickSortTimer(fiveAscending));
-		System.out.print("\n10000 Ascending:\n\tBubble: " + bubbleSortTimer(tenAscending) + "\n\tQuick: " + quickSortTimer(tenAscending));
-		System.out.print("\n20000 Ascending:\n\tBubble: " + bubbleSortTimer(twentyAscending) + "\n\tQuick: " + quickSortTimer(twentyAscending));
-		System.out.print("\n50000 Ascending:\n\tBubble: " + bubbleSortTimer(fiftyAscending) + "\n\tQuick: " + quickSortTimer(fiftyAscending));
+		//print out times
+		System.out.print("5000 Ascending Average:\n\tBubble: " + fiveBubbleAscAvg + "\n\tQuick: " + fiveQuickAscAvg);
+		System.out.print("\n10000 Ascending Average:\n\tBubble: " + tenBubbleAscAvg + "\n\tQuick: " + tenQuickAscAvg);
+		System.out.print("\n20000 Ascending Average:\n\tBubble: " + twentyBubbleAscAvg + "\n\tQuick: " + twentyQuickAscAvg);
+		System.out.print("\n50000 Ascending Average:\n\tBubble: " + fiftyBubbleAscAvg + "\n\tQuick: " + fiftyQuickAscAvg);
 
-		System.out.print("\n\n5000 Descending:\n\tBubble: " + bubbleSortTimer(fiveDescending) + "\n\tQuick: " + quickSortTimer(fiveDescending));
-		System.out.print("\n10000 Descending:\n\tBubble: " + bubbleSortTimer(tenDescending) + "\n\tQuick: " + quickSortTimer(tenDescending));
-		System.out.print("\n20000 Descending:\n\tBubble: " + bubbleSortTimer(twentyDescending) + "\n\tQuick: " + quickSortTimer(twentyDescending));
-		System.out.print("\n\n50000 Descending:\n\tBubble: " + bubbleSortTimer(fiftyDescending) + "\n\tQuick: " + quickSortTimer(fiftyDescending));
+		System.out.print("\n\n5000 Descending Average:\n\tBubble: " + fiveBubbleDesAvg + "\n\tQuick: " + fiveQuickDesAvg);
+		System.out.print("\n10000 Descending Average:\n\tBubble: " + tenBubbleDesAvg + "\n\tQuick: " + tenQuickDesAvg);
+		System.out.print("\n20000 Descending Average:\n\tBubble: " + twentyBubbleDesAvg + "\n\tQuick: " + twentyQuickDesAvg);
+		System.out.print("\n\n50000 Descending Average:\n\tBubble: " + fiftyBubbleDesAvg + "\n\tQuick: " + fiftyQuickDesAvg);
 
-		System.out.print("\n\n5000 Random:\n\tBubble: " + bubbleSortTimer(fiveRandom) + "\n\tQuick: " + quickSortTimer(fiveRandom));
-		System.out.print("\n10000 Random:\n\tBubble: " + bubbleSortTimer(tenRandom) + "\n\tQuick: " + quickSortTimer(tenRandom));
-		System.out.print("\n20000 Random:\n\tBubble: " + bubbleSortTimer(twentyRandom) + "\n\tQuick: " + quickSortTimer(twentyRandom));
-		System.out.print("\n\n50000 Random:\n\tBubble: " + bubbleSortTimer(fiftyRandom) + "\n\tQuick: " + quickSortTimer(fiftyRandom));
+		System.out.print("\n\n5000 Random Average:\n\tBubble: " + fiveBubbleRanAvg + "\n\tQuick: " + fiveQuickRanAvg);
+		System.out.print("\n10000 Random Average:\n\tBubble: " + tenBubbleRanAvg + "\n\tQuick: " + tenQuickRanAvg);
+		System.out.print("\n20000 Random Average:\n\tBubble: " + twentyBubbleRanAvg + "\n\tQuick: " + twentyQuickRanAvg);
+		System.out.print("\n50000 Random Average:\n\tBubble: " + fiftyBubbleRanAvg + "\n\tQuick: " + fiftyQuickRanAvg);
 			
 	}	
+	/** Opens file and stores it as an int[]
+	 * Best, Worst, Average: O(n) where n is the amount of lines in the file being read
+	 * @param size
+	 * @param order
+	 * @return int[]
+	 */
 	public static int[] fileOpener(int size, String order){
+		//create new array
 		int[] array = new int[size];
+		
+		//create file name
 		String fileName = size + " " + order + ".txt";
+		
+		//create these for incrementing file
 		String line;	
 		int counter = 0;
 		
+		//try/catch for exceptions
 		try {
 			FileReader fileReader = new FileReader(fileName);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			
+			//read line by line finding every int, adding it to array
 			while((line = bufferedReader.readLine()) != null){
 				array[counter] = Integer.parseInt(line);
+				counter++;
 			}
 			bufferedReader.close();
 		} catch (FileNotFoundException e) {
@@ -68,18 +119,22 @@ public class SortingAnalysis {
 		return array;
 	}
 	
-//	File file = new File(fileName);
-//	Scanner sc = new Scanner(file);
-//
-//	int counter = 0;
-//	while(sc.hasNextLine()){
-//		array[counter] = Integer.parseInt(sc.nextLine());
-//	}
-	
+	/** bubble sort timer
+	 * Worst, Average: O(n^2) where n is the amount of elements in the array
+	 * Best: O(n) where n is the amount of elements in the array
+	 * does bubble sort and times it in nanoseconds
+	 * @param array
+	 * @return long
+	 */
 	public static long bubbleSortTimer(int[] array){
-		int [] arrayCopy = array;
+		
+		//create copy of OG array
+		int [] arrayCopy = array.clone();
+		
+		//start timer
 		long startTime = System.nanoTime();
 		
+		//do bubble sort
 		for (int x = 0; x < arrayCopy.length - 1; x++){
 			for (int y = 0; y < arrayCopy.length - x - 1; y++){
 				if (arrayCopy[y] > arrayCopy[y + 1]){
@@ -90,23 +145,44 @@ public class SortingAnalysis {
 			}
 		}
 		
-		long endTime = System.nanoTime();
+		//end timer
+		long endTime = System.nanoTime();	
 		
+		//return difference
 		return endTime - startTime;
 	}
+	/** quick sort timer
+	 * O(1) constant time
+	 * calls quick sort function and times it in nanoseconds
+	 * @param array
+	 * @return long
+	 */
 	public static long quickSortTimer(int[] array){
-		int [] arrayCopy = array;
+		
+		//create copy of OG array
+		int [] arrayCopy = array.clone();
+		
+		//start timer
 		long startTime = System.nanoTime();
 		
+		//call quickSort
 		int low = 0;
 		int high = arrayCopy.length - 1;
 		quickSort(arrayCopy, low, high);
 		
+		//end timer
 		long endTime = System.nanoTime();
-		
+
+		//return difference
 		return endTime - startTime;
 	}
 	
+	/** recursive quick sort
+	 * Best, Worst, Average: O(nlogn) where n is the amount of elements in the array
+	 * @param array
+	 * @param low
+	 * @param high
+	 */
 	public static void quickSort(int[] array, int low, int high){
 		if (array == null || array.length == 0){
 			return;
@@ -147,8 +223,36 @@ public class SortingAnalysis {
 		}
 		
 	}
+	/** find average of 5 runs
+	 * O(1) constant time
+	 * @param array
+	 * @param  int sort (1 for bubble, 2 for quick)
+	 * @return long
+	 */
+	public static long avgTime(int[] array, int sort){
+		//initialize average variable
+		long avgTime = 0;
+		
+		//if 1, add 20 bubble sort times
+		if (sort == 1){
+			for (int x = 0; x < 5; x++){
+				avgTime += bubbleSortTimer(array);
+			}
+		}
+		
+		//if 2, add 20 quick sort times
+		if (sort == 2){
+			for (int x = 0; x < 5; x++){
+				avgTime += quickSortTimer(array);
+			}
+		}
+		
+		//return average
+		return avgTime / 5;
+	}
 	
-	/** Method for creating all files of size specified (ex. random, ascending, descending)
+	/** Method for creating all files of size specified (ex. random, ascending, descending), only run this once separately
+	 * O(n) where n is the size specified
 	 * @param size
 	 * @throws FileNotFoundException
 	 */
