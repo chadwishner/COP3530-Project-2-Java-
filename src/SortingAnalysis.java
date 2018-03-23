@@ -178,7 +178,8 @@ public class SortingAnalysis {
 	}
 	
 	/** recursive quick sort
-	 * Best, Worst, Average: O(nlogn) where n is the amount of elements in the array
+	 * Best, Average: O(nlogn) where n is the amount of elements in the array
+	 * Worst: O(n^2) where n is the amount of elements in the array
 	 * @param array
 	 * @param low
 	 * @param high
